@@ -68,5 +68,61 @@ public class UtilClass {
 		Log.info("Element text : "+ value);
 		return value;
 	}
+	
+	public void sleepinSeconds(int sec) {
+		try {
+			Log.info("Sleeping for " + sec + " seconds");
+			Thread.sleep(sec * 1000);
+		} catch (Exception e) {
+			Log.info("Problem in sleep");
+		}
+	}
 
+	
+	protected boolean isElementPresent(WebDriver driver, WebElement element) {
+		boolean value=false;
+		try {
+			element.isDisplayed();
+			value=true;
+		}
+		catch(Exception e) {
+			Log.info("Element is not present " + element);			
+		}
+		return value;
+	}
+	
+	protected boolean isElementPresent(WebDriver driver, By locator) {
+		boolean value=false;
+		try {
+			driver.findElement(locator).isDisplayed();
+			value=true;
+		}
+		catch(Exception e) {
+			Log.info("Element is not present " + locator);			
+		}
+		return value;
+	}
+
+	public static void screenShot(WebDriver driver)
+    {
+    	File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    	try {
+        	String timeStamp = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+        	String workingDir = System.getProperty("user.dir") + "/target/surefire-reports/Screenshots/";
+        	String path=timeStamp+new Random().nextInt(10000)+".png";
+			FileUtils.copyFile(scrFile, new File(workingDir+path));
+			String relativepath="./surefire-reports/Screenshots/" + path;
+			try {
+		    	ReportAdapter.addScreenCaptureFromPath(relativepath);
+		    }
+		    catch(Exception e) {
+		    	Log.info("Problem in adding screenshot to the Reports- " + e.getMessage());
+		    }
+    	} catch (IOException e) {
+			e.printStackTrace();
+			Log.info("Problem in taking screenshot - " + e.getMessage());
+		}
+    }
 }
+
+
