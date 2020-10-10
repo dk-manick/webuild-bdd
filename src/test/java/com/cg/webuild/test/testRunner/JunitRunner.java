@@ -15,8 +15,8 @@ import cucumber.api.junit.Cucumber;
 		           "junit:target/cucumber-results.xml" 
 		         },
 		features = {"src/test/java/com/cg/webuild/test/feature/Regression.feature"},
-		glue={"com.cg.webuild.stepdefinition"},
-        tags = {"@TC01"}
+		glue={"com.cg.webuild.stepdefinition"}//,
+        //tags = {"@TC01"}
 		)
 
 public class JunitRunner {

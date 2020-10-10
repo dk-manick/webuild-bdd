@@ -12,18 +12,19 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+//import cucumber.api.java.en.When;
 import cucumber.api.java.en.When;
 
 public class HomeSteps extends UtilClass {
 
 	public WebDriver driver;
 	private static Logger log = Logger.getLogger(HomeSteps.class);
-	
+
 	@Before
 	public void runBeforeScenario(Scenario s) {
-		String featureName=s.getId().split(";")[0];
+		String featureName = s.getId().split(";")[0];
 		log.info("**********Started executing scenario : " + s.getName() + "**********");
-		log.info("Feature Name : " +  featureName);
+		log.info("Feature Name : " + featureName);
 		try {
 			driver = BrowserManager.getInstance().getDriver();
 			ReportAdapter.setSystemInfo("Env", "staging");
@@ -34,10 +35,10 @@ public class HomeSteps extends UtilClass {
 
 	@After
 	public void runAfterScenario(Scenario s) {
-		String status="PASSED";
+		String status = "PASSED";
 		if (s.isFailed()) {
 			screenShot(driver);
-			status="FAILED";
+			status = "FAILED";
 		}
 		BrowserManager.getInstance().quitDriver();
 		log.info("**********Completed executing scenario : " + s.getName() + "  --->  " + status + "**********\n\n");
@@ -54,17 +55,23 @@ public class HomeSteps extends UtilClass {
 		HomePage obj = new HomePage(driver);
 		obj.verifyHomePage();
 	}
-	
+
 	@Then("^User validate header present in Home Page$")
 	public void checkHeader() {
 		HomePage obj = new HomePage(driver);
 		obj.verifyHeader();
 	}
-	
+
 	@Then("^User validate footer icons present in Home Page$")
 	public void checkFooter() {
 		HomePage obj = new HomePage(driver);
 		obj.verifyFooter();
 	}
 	
+	  @When("^User clicks on \"([^\"]*)\" link in Home Page$") 
+	  public void clickLink(String link) { 
+		  HomePage obj = new HomePage(driver);
+	  obj.clickOnLink(link); 
+	  }
+	 
 }
